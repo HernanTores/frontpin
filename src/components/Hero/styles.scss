@@ -1,0 +1,12 @@
+section.hero {
+    img {
+        @include breackpoint("tablet") {
+            height: 700px;
+            object-fit: cover;
+        }
+        @include breackpoint("mobile") {
+            height: 800px;
+            object-fit: cover;
+        }
+    }
+}
