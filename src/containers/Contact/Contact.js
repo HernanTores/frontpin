@@ -1,122 +1,127 @@
-import React, { useState } from 'react';
-import ContactImage from "../../assets/img/contact-image.png";
-import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import { sendEmail } from "../../axios/"
-
+import React, { useState } from 'react'
+import ContactImage from '../../assets/img/contact-image.png'
+import { Form, Button, Col, Container, Row, Alert } from 'react-bootstrap'
+import {sendEmail} from '../../axios'
 
 const Contact = () => {
+
   const [validated, setValidated] = useState(false)
   const [formData, setFormData] = useState({})
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Se envio')
-    const form = e.currentTarget;
-    console.log(form.checkValidity())
+    e.preventDefault()
+    console.log('se envio');
+    const form = e.currentTarget
+    console.log(form.checkValidity());
 
-    if (form.checkValidity()) {
-      console.log(formData)
-      console.log('El form fue validado')
+    if(form.checkValidity()) {
+      console.log(formData);
+      console.log('El form fue validado');
       let responseData = await sendEmail(formData)
-      console.log(responseData.data)
+      console.log(responseData.data);
       form.reset()
     } else {
-      console.log('Te olvidaste algo')
       setShow(true)
     }
   }
 
   const handleOnChange = (e) => {
-    console.log(e.target.name)
-    console.log(e.target.value)
+    console.log(e.target.name); 
+    console.log(e.target.value); 
     
     
     setFormData((prevState) => {
       return {
         ...prevState,
-        [e.target.name]: e.target.value
+         [e.target.name]: e.target.value
       }
     })
   }
-  console.log(formData)
-
-  return (
+    console.log(formData);
+  return(
     <section id="contact" className="contact">
       <Container>
         <Row>
           <Col md={12} lg={5}>
             <h3>
-              Get in touch<br></br>
+              Get in touch <br></br>
               <span>We are hiring!</span>
             </h3>
+            
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                
                 <Form.Control
                   onChange={handleOnChange}
                   required
-                  type='text'
-                  placeholder='Name'
-                  name='name'
+                  type="text"
+                  placeholder="Name"
+                  name="name"
                 />
+                
               </Form.Group>
 
-              <Form.Group >
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                
                 <Form.Control
                   onChange={handleOnChange}
                   required
-                  name='email'
-                  type='email'
-                  placeholder='Email'
+                  type="email"
+                  placeholder="Email"
+                  name="email"
                 />
+
               </Form.Group>
 
-              <Form.Group >
-                <Form.Control
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                
+                <Form.Control 
                   onChange={handleOnChange}
                   required
-                  name='phone'
-                  type='tel'
-                  placeholder='Phone'
+                  type="tel"
+                  placeholder="Phone"
+                  name="phone"
                 />
+
               </Form.Group>
 
-              <Form.Group controlId='formBasicTextArea'>
-                <Form.Control
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                
+                <Form.Control 
                   onChange={handleOnChange}
                   required
-                  name='message'
-                  as='textarea'
+                  as="textarea"
                   rows={3}
-                  placeholder='Message'
+                  placeholder="Message"
+                  name="message"
                 />
-                <Form.Control.Feedback type='invalid'>
-                  Por favor ingrese un mensaje
-                </Form.Control.Feedback>
-              </Form.Group>
 
-              <Button variant='primary' type='submit'>
+              </Form.Group>
+              {
+                show ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                <p>
+                  Change this and that and try again.
+                </p>
+            </Alert> : null
+              }
+              
+
+              <Button variant="primary" type="submit">
                 Send
               </Button>
             </Form>
-            < br />
+
           </Col>
-          
-          <Col md={12} lg={7}>
-            <img src={ContactImage} alt='Contact' className='d-block w-100' />
+          <Col md={12} lg={5}>
+            <img src={ContactImage} alt="" className="globo"/>
           </Col>
         </Row>
       </Container>
-        {
-                        show ? ( <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                        <p>
-                          Change this and that and try again.
-                        </p>
-                      </Alert>) : null
-        }
+      
     </section>
-  );
+  )
 }
 
-export default Contact;
+export default Contact
